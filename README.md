@@ -22,6 +22,18 @@ A powerful and beautiful task management desktop application built with Electron
 
 > Coming soon...
 
+## Installation (Windows)
+
+Download the latest installer from [Releases](https://github.com/RedTemperature/taskflow/releases) and run `TaskFlow-x.x.x-setup.exe`. The installer will:
+
+- Install the application to your system
+- **Create a desktop shortcut** automatically
+- Add TaskFlow to the Start Menu
+
+After installation, double-click the **TaskFlow** icon on your desktop to launch.
+
+Alternatively, download the portable version (`TaskFlow x.x.x.exe`) — no installation required, just double-click to run.
+
 ## Tech Stack
 
 - **Desktop Framework**: Electron
