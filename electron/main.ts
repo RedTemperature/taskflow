@@ -2,6 +2,9 @@ import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
 import { setupIpcHandlers } from './ipc'
 
+// 确保开发/生产环境使用同一数据目录
+app.setName('taskflow')
+
 function createWindow(): BrowserWindow {
   const mainWindow = new BrowserWindow({
     width: 1200,
@@ -30,7 +33,7 @@ function createWindow(): BrowserWindow {
   if (process.env.NODE_ENV === 'development') {
     mainWindow.loadURL('http://localhost:5173')
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    mainWindow.loadFile(join(__dirname, '../../renderer/index.html'))
   }
 
   return mainWindow

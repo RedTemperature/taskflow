@@ -45,7 +45,7 @@ A powerful and beautiful task management desktop application built with Electron
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/taskflow.git
+git clone https://github.com/RedTemperature/taskflow.git
 cd taskflow
 
 # Install dependencies

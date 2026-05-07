@@ -3,6 +3,7 @@ productName: TaskFlow
 directories:
   buildResources: build
 files:
+  - 'out/**/*'
   - '!**/.vscode/*'
   - '!src/*'
   - '!electron/*'
@@ -11,6 +12,7 @@ files:
   - '!{.claude,.claude.json}'
 win:
   executableName: taskflow
+  signAndEditExecutable: false
   target:
     - target: nsis
       arch:
