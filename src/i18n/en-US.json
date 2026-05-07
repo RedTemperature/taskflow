@@ -1,0 +1,120 @@
+{
+  "sidebar": {
+    "tasks": "Tasks",
+    "stats": "Statistics",
+    "settings": "Settings",
+    "subtitle": "Manage your tasks efficiently"
+  },
+  "header": {
+    "searchPlaceholder": "Search tasks...",
+    "listView": "List View",
+    "boardView": "Board View",
+    "addTask": "New Task",
+    "theme": {
+      "light": "Light Mode",
+      "dark": "Dark Mode",
+      "system": "System"
+    }
+  },
+  "taskForm": {
+    "addTitle": "New Task",
+    "editTitle": "Edit Task",
+    "titleLabel": "Task Title",
+    "titlePlaceholder": "Enter task title...",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Enter description (optional)...",
+    "priorityLabel": "Priority",
+    "dueDateLabel": "Due Date",
+    "tagsLabel": "Tags",
+    "tagsPlaceholder": "Press Enter to add tag...",
+    "addTag": "Add",
+    "cancel": "Cancel",
+    "save": "Save",
+    "add": "Create"
+  },
+  "taskCard": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "addSubtask": "Add Subtask",
+    "today": "Today",
+    "overdue": "Overdue"
+  },
+  "taskDetail": {
+    "title": "Task Details",
+    "description": "Description",
+    "priority": "Priority",
+    "dueDate": "Due Date",
+    "tags": "Tags",
+    "createdAt": "Created at",
+    "completedAt": "Completed at",
+    "subtasks": "Subtasks",
+    "edit": "Edit",
+    "close": "Close"
+  },
+  "taskList": {
+    "filters": "Filters",
+    "sortDate": "Date",
+    "sortPriority": "Priority",
+    "sortDueDate": "Due Date",
+    "showCompleted": "Show Completed",
+    "filterStatus": "Status",
+    "filterPriority": "Priority",
+    "filterDueDate": "Due Date",
+    "filterTags": "Tags",
+    "empty": "No tasks yet",
+    "emptyHint": "Click \"New Task\" in the top right to get started"
+  },
+  "kanban": {
+    "emptyColumn": "Drag tasks here"
+  },
+  "stats": {
+    "title": "Statistics",
+    "total": "Total",
+    "completed": "Completed",
+    "inProgress": "In Progress",
+    "overdue": "Overdue",
+    "completionRate": "Completion Rate",
+    "completionTrend": "Completion Trend (Last 7 Days)",
+    "priorityDistribution": "Priority Distribution",
+    "statusDistribution": "Status Distribution"
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": "Appearance",
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "language": "Language",
+    "defaultView": "Default View",
+    "view": {
+      "list": "List",
+      "board": "Board"
+    },
+    "dataManagement": "Data Management",
+    "export": "Export Data",
+    "import": "Import Data",
+    "exportSuccess": "Export successful!",
+    "exportError": "Export failed, please try again",
+    "importSuccess": "Import successful!",
+    "importError": "Import failed, please check file format"
+  },
+  "priority": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "urgent": "Urgent"
+  },
+  "status": {
+    "todo": "To Do",
+    "in_progress": "In Progress",
+    "done": "Done"
+  },
+  "filter": {
+    "all": "All",
+    "today": "Today",
+    "week": "This Week",
+    "overdue": "Overdue"
+  }
+}
