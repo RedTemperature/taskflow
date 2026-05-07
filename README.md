@@ -20,7 +20,17 @@ A powerful and beautiful task management desktop application built with Electron
 
 ## Screenshots
 
-> Coming soon...
+### List View
+
+![List View](screenshots/list-view.png)
+
+### Kanban Board
+
+![Kanban Board](screenshots/kanban-view.png)
+
+### Statistics
+
+![Statistics](screenshots/stats-view.png)
 
 ## Installation (Windows)
 
