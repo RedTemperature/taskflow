@@ -103,8 +103,8 @@
     "ai": {
       "title": "AI 配置",
       "presetLabel": "预设服务商",
-      "presetClaude": "Claude",
       "presetDeepSeek": "DeepSeek",
+      "presetOpenRouter": "OpenRouter",
       "presetCustom": "自定义",
       "modelLabel": "模型名称",
       "modelPlaceholder": "例如：claude-3-5-haiku-latest",

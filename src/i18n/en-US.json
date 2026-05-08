@@ -103,8 +103,8 @@
     "ai": {
       "title": "AI Configuration",
       "presetLabel": "Preset Providers",
-      "presetClaude": "Claude",
       "presetDeepSeek": "DeepSeek",
+      "presetOpenRouter": "OpenRouter",
       "presetCustom": "Custom",
       "modelLabel": "Model Name",
       "modelPlaceholder": "e.g. claude-3-5-haiku-latest",

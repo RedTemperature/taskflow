@@ -1,7 +1,7 @@
 import { ipcMain, BrowserWindow, dialog } from 'electron'
 import { getTasks, saveTasks, getSettings, saveSettings } from './store'
 import { readFileSync, writeFileSync } from 'fs'
-import Anthropic from '@anthropic-ai/sdk'
+import OpenAI from 'openai'
 import { AISuggestedTask } from '../shared/types'
 
 export function setupIpcHandlers(_mainWindow: BrowserWindow): void {
@@ -73,9 +73,9 @@ export function setupIpcHandlers(_mainWindow: BrowserWindow): void {
     }
 
     try {
-      const client = new Anthropic({
+      const client = new OpenAI({
         apiKey: settings.aiApiKey,
-        baseURL: settings.aiBaseUrl || 'https://api.anthropic.com'
+        baseURL: settings.aiBaseUrl || 'https://api.deepseek.com'
       })
 
       const systemPrompt = `You are a task extraction assistant. Analyze the provided text and extract actionable tasks.
@@ -85,32 +85,36 @@ Rules:
 2. Infer a priority (low, medium, high, urgent) from urgency cues.
 3. Infer relevant tags from categories mentioned (e.g., "meeting" → ["meeting"], "bug" → ["bug", "dev"]).
 4. Infer due dates when mentioned (return as YYYY-MM-DD format).
-5. Return ONLY a JSON array. No markdown, no explanation outside the array.
+5. Return ONLY a JSON object with a "tasks" key containing an array. Example: {"tasks": [{"title": "...", "priority": "high", "tags": ["meeting"], "dueDate": "2026-05-15"}]}
 6. Task schema: {"title": "string (required, under 80 chars)", "description": "string (optional)", "priority": "low|medium|high|urgent", "tags": ["string", ...], "dueDate": "YYYY-MM-DD (optional)"}
-7. Return [] if no tasks found.`
+7. Return {"tasks": []} if no tasks found.`
 
-      const msg = await client.messages.create({
-        model: settings.aiModel || 'claude-3-5-haiku-latest',
+      const response = await client.chat.completions.create({
+        model: settings.aiModel || 'deepseek-v4-pro',
         max_tokens: 4096,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: [{ type: 'text' as const, text }] }]
+        response_format: { type: 'json_object' },
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: text }
+        ]
       })
 
-      const content = msg.content[0]
-      if (content.type !== 'text') {
-        return { success: false, error: 'Unexpected API response format.' }
+      const content = response.choices[0]?.message?.content
+      if (!content) {
+        return { success: false, error: 'Empty response from API.' }
       }
 
-      let jsonStr = content.text.trim()
+      let jsonStr = content.trim()
       const codeBlock = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/)
       if (codeBlock) jsonStr = codeBlock[1].trim()
 
       const parsed = JSON.parse(jsonStr)
-      if (!Array.isArray(parsed)) {
+      const taskArray = Array.isArray(parsed) ? parsed : (parsed.tasks || [])
+      if (!Array.isArray(taskArray)) {
         return { success: false, error: 'API returned unexpected format. Please try again.' }
       }
 
-      const tasks: AISuggestedTask[] = parsed.map((item: Record<string, unknown>, i: number) => ({
+      const tasks: AISuggestedTask[] = taskArray.map((item: Record<string, unknown>, i: number) => ({
         tempId: `ai-${i}-${Date.now()}`,
         title: typeof item.title === 'string' ? item.title : `Task ${i + 1}`,
         description: typeof item.description === 'string' ? item.description : undefined,
@@ -124,13 +128,18 @@ Rules:
       return { success: true, tasks }
     } catch (error: unknown) {
       console.error('AI generation failed:', error)
-      if (error instanceof Anthropic.APIError) {
-        if (error.status === 401) return { success: false, error: 'Invalid API key. Please check your API key in Settings.' }
-        if (error.status === 429) return { success: false, error: 'Rate limited. Please wait and try again.' }
-        return { success: false, error: `API error (${error.status}): ${error.message}` }
-      }
       if (error instanceof SyntaxError) {
         return { success: false, error: 'Failed to parse AI response. Please try again.' }
+      }
+      const apiError = error as { status?: number; message?: string }
+      if (apiError.status === 401) {
+        return { success: false, error: 'Invalid API key. Please check your API key in Settings.' }
+      }
+      if (apiError.status === 429) {
+        return { success: false, error: 'Rate limited. Please wait and try again.' }
+      }
+      if (apiError.status) {
+        return { success: false, error: `API error (${apiError.status}): ${apiError.message}` }
       }
       return { success: false, error: 'Network or connection error. Please check your API URL and network.' }
     }
