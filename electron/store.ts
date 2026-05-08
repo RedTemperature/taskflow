@@ -7,6 +7,9 @@ interface TaskStore {
     language: 'zh-CN' | 'en-US'
     defaultView: 'list' | 'board'
     showCompletedTasks: boolean
+    aiModel?: string
+    aiBaseUrl?: string
+    aiApiKey?: string
   }
 }
 

@@ -10,6 +10,7 @@
     "listView": "List View",
     "boardView": "Board View",
     "addTask": "New Task",
+    "aiGenerate": "AI Generate",
     "theme": {
       "light": "Light Mode",
       "dark": "Dark Mode",
@@ -98,7 +99,23 @@
     "exportSuccess": "Export successful!",
     "exportError": "Export failed, please try again",
     "importSuccess": "Import successful!",
-    "importError": "Import failed, please check file format"
+    "importError": "Import failed, please check file format",
+    "ai": {
+      "title": "AI Configuration",
+      "presetLabel": "Preset Providers",
+      "presetClaude": "Claude",
+      "presetDeepSeek": "DeepSeek",
+      "presetCustom": "Custom",
+      "modelLabel": "Model Name",
+      "modelPlaceholder": "e.g. claude-3-5-haiku-latest",
+      "baseUrlLabel": "API URL",
+      "baseUrlPlaceholder": "https://api.anthropic.com",
+      "apiKeyLabel": "API Key",
+      "apiKeyPlaceholder": "sk-ant-...",
+      "apiKeyHint": "Your key is stored locally and only used to call the AI API. Works with any Anthropic Messages API-compatible provider.",
+      "saveKey": "Save Configuration",
+      "saved": "Configuration saved"
+    }
   },
   "priority": {
     "low": "Low",
@@ -116,5 +133,27 @@
     "today": "Today",
     "week": "This Week",
     "overdue": "Overdue"
+  },
+  "aiGenerator": {
+    "title": "AI Task Generator",
+    "description": "Paste text from notifications, chat records, meeting notes, Excel exports, etc. AI will automatically extract tasks.",
+    "inputPlaceholder": "Paste your text here...\n\nExamples:\n- Review Q3 report by Friday\n- Schedule team retrospective for next Tuesday at 2pm\n- Update deployment documentation\n- Fix login page bug (urgent)",
+    "uploadFile": "Upload File",
+    "uploadHint": "Supports .txt, .md, .csv files",
+    "generate": "Generate Tasks",
+    "generating": "Analyzing your text...",
+    "tasksFound": "{{count}} tasks found",
+    "noTasksFound": "No tasks could be extracted from the provided text. Try providing more detailed content.",
+    "confirmAll": "Create {{count}} Tasks",
+    "cancel": "Cancel",
+    "tryAgain": "Try Again",
+    "unknownError": "An unexpected error occurred. Please try again.",
+    "editTitle": "Title",
+    "editDescription": "Description",
+    "editPriority": "Priority",
+    "editDueDate": "Due Date",
+    "editTags": "Tags",
+    "removeTask": "Remove this task",
+    "addTag": "Add"
   }
 }

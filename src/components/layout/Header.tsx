@@ -1,9 +1,10 @@
-import { Plus, Search, LayoutGrid, List, Sun, Moon, Monitor } from 'lucide-react'
+import { Plus, Search, LayoutGrid, List, Sun, Moon, Monitor, Sparkles } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTaskStore } from '../../stores/taskStore'
 import { useSettingsStore } from '../../stores/settingsStore'
 import TaskForm from '../tasks/TaskForm'
+import AiTaskGenerator from '../ai/AiTaskGenerator'
 import { ViewMode } from '../../../shared/types'
 
 interface HeaderProps {
@@ -17,6 +18,7 @@ export default function Header({ currentPage, viewMode, onViewModeChange }: Head
   const { filters, setFilters } = useTaskStore()
   const { settings, setSettings } = useSettingsStore()
   const [showTaskForm, setShowTaskForm] = useState(false)
+  const [showAiGenerator, setShowAiGenerator] = useState(false)
 
   const themeIcons = {
     light: Sun,
@@ -87,18 +89,29 @@ export default function Header({ currentPage, viewMode, onViewModeChange }: Head
           </button>
 
           {currentPage === 'tasks' && (
-            <button
-              onClick={() => setShowTaskForm(true)}
-              className="flex items-center gap-2 rounded-lg bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-            >
-              <Plus className="h-4 w-4" />
-              {t('header.addTask')}
-            </button>
+            <>
+              <button
+                onClick={() => setShowAiGenerator(true)}
+                className="flex items-center gap-2 rounded-lg border border-primary-300 px-4 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:border-primary-700 dark:text-primary-400 dark:hover:bg-primary-900/20"
+                title={t('header.aiGenerate')}
+              >
+                <Sparkles className="h-4 w-4" />
+                {t('header.aiGenerate')}
+              </button>
+              <button
+                onClick={() => setShowTaskForm(true)}
+                className="flex items-center gap-2 rounded-lg bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+              >
+                <Plus className="h-4 w-4" />
+                {t('header.addTask')}
+              </button>
+            </>
           )}
         </div>
       </header>
 
       {showTaskForm && <TaskForm onClose={() => setShowTaskForm(false)} />}
+      {showAiGenerator && <AiTaskGenerator onClose={() => setShowAiGenerator(false)} />}
     </>
   )
 }

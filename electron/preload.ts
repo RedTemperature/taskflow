@@ -13,7 +13,10 @@ const api = {
   // File operations
   exportData: (data: string, format: 'json' | 'csv') =>
     ipcRenderer.invoke('file:export', data, format),
-  importData: (format: 'json' | 'csv') => ipcRenderer.invoke('file:import', format)
+  importData: (format: 'json' | 'csv') => ipcRenderer.invoke('file:import', format),
+
+  // AI Task Generation
+  generateTasks: (text: string) => ipcRenderer.invoke('ai:generateTasks', text)
 }
 
 if (process.contextIsolated) {

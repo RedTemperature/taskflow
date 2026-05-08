@@ -9,7 +9,11 @@ import {
   Download,
   Upload,
   FileJson,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Sparkles,
+  Eye,
+  EyeOff,
+  Check
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useSettingsStore } from '../../stores/settingsStore'
@@ -24,6 +28,17 @@ export default function SettingsPage() {
   const { tasks, setTasks } = useTaskStore()
   const [exportStatus, setExportStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [importStatus, setImportStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [showApiKey, setShowApiKey] = useState(false)
+  const [localAIModel, setLocalAIModel] = useState(settings.aiModel || '')
+  const [localAIBaseUrl, setLocalAIBaseUrl] = useState(settings.aiBaseUrl || '')
+  const [localAIApiKey, setLocalAIApiKey] = useState(settings.aiApiKey || '')
+  const [aiSaved, setAiSaved] = useState(false)
+
+  const presets: { label: string; model: string; url: string }[] = [
+    { label: t('settings.ai.presetClaude'), model: 'claude-3-5-haiku-latest', url: 'https://api.anthropic.com' },
+    { label: t('settings.ai.presetDeepSeek'), model: 'deepseek-v4-pro', url: 'https://api.deepseek.com' },
+    { label: t('settings.ai.presetCustom'), model: '', url: '' }
+  ]
 
   const themeOptions: { value: Settings['theme']; icon: typeof Sun; labelKey: string }[] = [
     { value: 'light', icon: Sun, labelKey: 'settings.theme.light' },
@@ -191,6 +206,109 @@ export default function SettingsPage() {
                 </span>
               </button>
             ))}
+          </div>
+        </div>
+
+        {/* AI Configuration */}
+        <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+          <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-white">
+            <Sparkles className="h-5 w-5" />
+            {t('settings.ai.title')}
+          </h3>
+
+          <div className="space-y-4">
+            {/* Presets */}
+            <div>
+              <p className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                {t('settings.ai.presetLabel')}
+              </p>
+              <div className="grid grid-cols-3 gap-2">
+                {presets.map(({ label, model, url }) => (
+                  <button
+                    key={label}
+                    onClick={() => { setLocalAIModel(model); setLocalAIBaseUrl(url) }}
+                    className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-600 hover:border-primary-300 hover:text-primary-600 dark:border-gray-600 dark:text-gray-400 dark:hover:border-primary-500 dark:hover:text-primary-400"
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Model Name */}
+            <div>
+              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                {t('settings.ai.modelLabel')}
+              </label>
+              <input
+                type="text"
+                value={localAIModel}
+                onChange={(e) => setLocalAIModel(e.target.value)}
+                placeholder={t('settings.ai.modelPlaceholder')}
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+
+            {/* Base URL */}
+            <div>
+              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                {t('settings.ai.baseUrlLabel')}
+              </label>
+              <input
+                type="text"
+                value={localAIBaseUrl}
+                onChange={(e) => setLocalAIBaseUrl(e.target.value)}
+                placeholder={t('settings.ai.baseUrlPlaceholder')}
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+
+            {/* API Key */}
+            <div>
+              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                {t('settings.ai.apiKeyLabel')}
+              </label>
+              <div className="relative">
+                <input
+                  type={showApiKey ? 'text' : 'password'}
+                  value={localAIApiKey}
+                  onChange={(e) => setLocalAIApiKey(e.target.value)}
+                  placeholder={t('settings.ai.apiKeyPlaceholder')}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-10 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowApiKey(!showApiKey)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  {showApiKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+              <p className="mt-1.5 text-xs text-gray-400 dark:text-gray-500">
+                {t('settings.ai.apiKeyHint')}
+              </p>
+            </div>
+
+            {/* Save */}
+            <div className="flex items-center justify-between">
+              {aiSaved && (
+                <span className="flex items-center gap-1.5 text-sm text-green-600 dark:text-green-400">
+                  <Check className="h-4 w-4" />
+                  {t('settings.ai.saved')}
+                </span>
+              )}
+              <button
+                onClick={() => {
+                  setSettings({ aiModel: localAIModel.trim() || undefined, aiBaseUrl: localAIBaseUrl.trim() || undefined, aiApiKey: localAIApiKey.trim() || undefined })
+                  setAiSaved(true)
+                  setTimeout(() => setAiSaved(false), 3000)
+                }}
+                disabled={!localAIApiKey.trim() && !localAIModel.trim()}
+                className="rounded-lg bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-600 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {t('settings.ai.saveKey')}
+              </button>
+            </div>
           </div>
         </div>
 

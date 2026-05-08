@@ -18,6 +18,9 @@ export interface Settings {
   language: 'zh-CN' | 'en-US'
   defaultView: 'list' | 'board'
   showCompletedTasks: boolean
+  aiModel?: string
+  aiBaseUrl?: string
+  aiApiKey?: string
 }
 
 export interface TaskFilters {
@@ -54,4 +57,19 @@ export interface ExportResult {
 export interface ImportResult {
   success: boolean
   content?: string
+}
+
+export interface AISuggestedTask {
+  tempId: string
+  title: string
+  description?: string
+  priority: Task['priority']
+  tags: string[]
+  dueDate?: string
+}
+
+export interface AIGenerateResult {
+  success: boolean
+  tasks?: AISuggestedTask[]
+  error?: string
 }
