@@ -14,6 +14,8 @@ import {
 import { useTranslation } from 'react-i18next'
 import { useSettingsStore } from '../../stores/settingsStore'
 import { useTaskStore } from '../../stores/taskStore'
+import { exportToJSON, exportToCSV } from '../../utils/export'
+import { importFromJSON, importFromCSV } from '../../utils/import'
 import { Settings } from '../../../shared/types'
 
 export default function SettingsPage() {
@@ -45,25 +47,7 @@ export default function SettingsPage() {
 
   const handleExport = async (format: 'json' | 'csv') => {
     try {
-      let data: string
-
-      if (format === 'json') {
-        data = JSON.stringify(tasks, null, 2)
-      } else {
-        const headers = ['id', 'title', 'description', 'status', 'priority', 'tags', 'dueDate', 'createdAt']
-        const rows = tasks.map((task) =>
-          headers
-            .map((header) => {
-              const value = task[header as keyof typeof task]
-              if (Array.isArray(value)) return `"${value.join(', ')}"`
-              if (typeof value === 'string' && value.includes(',')) return `"${value}"`
-              return value || ''
-            })
-            .join(',')
-        )
-        data = [headers.join(','), ...rows].join('\n')
-      }
-
+      const data = format === 'json' ? exportToJSON(tasks) : exportToCSV(tasks)
       const result = await window.api.exportData(data, format)
       setExportStatus(result.success ? 'success' : 'error')
       setTimeout(() => setExportStatus('idle'), 3000)
@@ -83,27 +67,15 @@ export default function SettingsPage() {
         return
       }
 
-      if (format === 'json') {
-        const importedTasks = JSON.parse(result.content)
-        if (Array.isArray(importedTasks)) {
-          setTasks([...tasks, ...importedTasks])
-        }
-      } else {
-        const lines = result.content.split('\n')
-        const headers = lines[0].split(',')
-        const importedTasks = lines.slice(1).map((line) => {
-          const values = line.split(',')
-          const task: Record<string, unknown> = {}
-          headers.forEach((header, index) => {
-            let value: unknown = values[index]
-            if (header === 'tags') {
-              value = (value as string).split(', ').filter(Boolean)
-            }
-            task[header] = value
-          })
-          return task
-        })
-        setTasks([...tasks, ...importedTasks as unknown as typeof tasks])
+      const importedTasks = format === 'json'
+        ? importFromJSON(result.content)
+        : importFromCSV(result.content)
+
+      const existingIds = new Set(tasks.map((t) => t.id))
+      const newTasks = importedTasks.filter((t) => !existingIds.has(t.id))
+
+      if (newTasks.length > 0) {
+        setTasks([...tasks, ...newTasks])
       }
 
       setImportStatus('success')

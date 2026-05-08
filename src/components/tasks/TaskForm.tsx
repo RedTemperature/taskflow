@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { X, Calendar, Tag, Flag } from 'lucide-react'
+import { X, Calendar, Clock, Tag, Flag } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useTaskStore } from '../../stores/taskStore'
 import { Task } from '../../../shared/types'
@@ -18,6 +18,13 @@ export default function TaskForm({ onClose, task, parentId }: TaskFormProps) {
   const [description, setDescription] = useState(task?.description || '')
   const [priority, setPriority] = useState<Task['priority']>(task?.priority || 'medium')
   const [dueDate, setDueDate] = useState(task?.dueDate?.split('T')[0] || '')
+  const [dueTime, setDueTime] = useState(() => {
+    if (!task?.dueDate) return ''
+    const d = new Date(task.dueDate)
+    return d.getHours() !== 0 || d.getMinutes() !== 0
+      ? `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
+      : ''
+  })
   const [tagInput, setTagInput] = useState('')
   const [tags, setTags] = useState<string[]>(task?.tags || [])
 
@@ -31,7 +38,9 @@ export default function TaskForm({ onClose, task, parentId }: TaskFormProps) {
       status: task?.status || 'todo' as const,
       priority,
       tags,
-      dueDate: dueDate ? new Date(dueDate).toISOString() : undefined,
+      dueDate: dueDate
+        ? new Date(dueTime ? `${dueDate}T${dueTime}` : dueDate).toISOString()
+        : undefined,
       parentId
     }
 
@@ -135,6 +144,20 @@ export default function TaskForm({ onClose, task, parentId }: TaskFormProps) {
                 onChange={(e) => setDueDate(e.target.value)}
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               />
+              {dueDate && (
+                <div className="mt-2">
+                  <label className="mb-1 flex items-center gap-1.5 text-xs font-medium text-gray-500 dark:text-gray-400">
+                    <Clock className="h-3.5 w-3.5" />
+                    {t('taskForm.dueTimeLabel')}
+                  </label>
+                  <input
+                    type="time"
+                    value={dueTime}
+                    onChange={(e) => setDueTime(e.target.value)}
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+              )}
             </div>
           </div>
 

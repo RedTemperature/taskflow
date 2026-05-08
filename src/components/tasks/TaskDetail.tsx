@@ -110,19 +110,26 @@ export default function TaskDetail({ task, onClose }: TaskDetailProps) {
                 </div>
               </div>
 
-              {task.dueDate && (
-                <div className="flex items-center gap-3">
-                  <Calendar className="h-5 w-5 text-gray-400" />
-                  <div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      {t('taskDetail.dueDate')}
-                    </p>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">
-                      {format(new Date(task.dueDate), 'PPP', { locale })}
-                    </p>
+              {task.dueDate && (() => {
+                const d = new Date(task.dueDate)
+                const hasTime = d.getHours() !== 0 || d.getMinutes() !== 0
+                const timeStr = hasTime
+                  ? `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
+                  : ''
+                return (
+                  <div className="flex items-center gap-3">
+                    <Calendar className="h-5 w-5 text-gray-400" />
+                    <div>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {t('taskDetail.dueDate')}
+                      </p>
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                        {format(d, 'PPP', { locale })}{timeStr ? ` ${timeStr}` : ''}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              )}
+                )
+              })()}
 
               {task.tags.length > 0 && (
                 <div className="flex items-start gap-3">

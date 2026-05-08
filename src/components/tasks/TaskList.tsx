@@ -14,15 +14,15 @@ import { useSettingsStore } from '../../stores/settingsStore'
 import TaskCard from './TaskCard'
 import { Task } from '../../../shared/types'
 
-type SortField = 'createdAt' | 'dueDate' | 'priority' | 'title'
+type SortField = 'dueDate' | 'priority' | 'title'
 type SortDirection = 'asc' | 'desc'
 
 export default function TaskList() {
   const { t } = useTranslation()
   const { getFilteredTasks, filters, setFilters, tasks } = useTaskStore()
   const { settings } = useSettingsStore()
-  const [sortField, setSortField] = useState<SortField>('createdAt')
-  const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
+  const [sortField, setSortField] = useState<SortField>('dueDate')
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const [showFilters, setShowFilters] = useState(false)
 
   const filteredTasks = getFilteredTasks()
@@ -33,9 +33,6 @@ export default function TaskList() {
     let comparison = 0
 
     switch (sortField) {
-      case 'createdAt':
-        comparison = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        break
       case 'dueDate':
         if (!a.dueDate && !b.dueDate) comparison = 0
         else if (!a.dueDate) comparison = 1
@@ -74,7 +71,9 @@ export default function TaskList() {
     inProgress: filteredTasks.filter((t) => t.status === 'in_progress').length,
     overdue: filteredTasks.filter((t) => {
       if (!t.dueDate || t.status === 'done') return false
-      return new Date(t.dueDate) < new Date()
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      return new Date(t.dueDate) < today
     }).length
   }
 
@@ -148,9 +147,8 @@ export default function TaskList() {
 
           <div className="flex items-center gap-1 rounded-lg border border-gray-300 bg-white p-1 dark:border-gray-600 dark:bg-gray-800">
             {[
-              { field: 'createdAt' as SortField, label: t('taskList.sortDate') },
-              { field: 'priority' as SortField, label: t('taskList.sortPriority') },
-              { field: 'dueDate' as SortField, label: t('taskList.sortDueDate') }
+              { field: 'dueDate' as SortField, label: t('taskList.sortDueTime') },
+              { field: 'priority' as SortField, label: t('taskList.sortPriority') }
             ].map(({ field, label }) => (
               <button
                 key={field}

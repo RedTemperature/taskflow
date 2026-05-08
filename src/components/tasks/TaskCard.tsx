@@ -50,7 +50,7 @@ export default function TaskCard({ task }: TaskCardProps) {
 
   const subtasks = getSubtasks(task.id)
   const completedSubtasks = subtasks.filter((st) => st.status === 'done').length
-  const isOverdue = task.dueDate && isPast(new Date(task.dueDate)) && task.status !== 'done'
+  const isOverdue = task.dueDate && isPast(new Date(task.dueDate)) && !isToday(new Date(task.dueDate)) && task.status !== 'done'
   const isDueToday = task.dueDate && isToday(new Date(task.dueDate))
   const isSelected = selectedTaskId === task.id
   const locale = settings.language === 'zh-CN' ? zhCN : enUS
@@ -58,12 +58,16 @@ export default function TaskCard({ task }: TaskCardProps) {
   const getDueDateDisplay = () => {
     if (!task.dueDate) return null
     const date = new Date(task.dueDate)
+    const hasTime = date.getHours() !== 0 || date.getMinutes() !== 0
+    const timeStr = hasTime
+      ? `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
+      : ''
 
     if (isOverdue) {
       return (
         <span className="flex items-center gap-1 text-red-500">
           <Clock className="h-3.5 w-3.5" />
-          {t('taskCard.overdue')}
+          {timeStr ? `${t('taskCard.overdue')} ${timeStr}` : t('taskCard.overdue')}
         </span>
       )
     }
@@ -72,7 +76,7 @@ export default function TaskCard({ task }: TaskCardProps) {
       return (
         <span className="flex items-center gap-1 text-orange-500">
           <Clock className="h-3.5 w-3.5" />
-          {t('taskCard.today')}
+          {timeStr ? `${t('taskCard.today')} ${timeStr}` : t('taskCard.today')}
         </span>
       )
     }
@@ -80,7 +84,7 @@ export default function TaskCard({ task }: TaskCardProps) {
     return (
       <span className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
         <Clock className="h-3.5 w-3.5" />
-        {format(date, 'MM/dd', { locale })}
+        {format(date, 'MM/dd', { locale })}{timeStr ? ` ${timeStr}` : ''}
       </span>
     )
   }

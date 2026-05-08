@@ -25,6 +25,7 @@
     "descriptionPlaceholder": "输入任务描述（可选）...",
     "priorityLabel": "优先级",
     "dueDateLabel": "截止日期",
+    "dueTimeLabel": "具体时间",
     "tagsLabel": "标签",
     "tagsPlaceholder": "输入标签后按回车...",
     "addTag": "添加",
@@ -53,9 +54,8 @@
   },
   "taskList": {
     "filters": "筛选",
-    "sortDate": "日期",
+    "sortDueTime": "截止时间",
     "sortPriority": "优先级",
-    "sortDueDate": "截止日期",
     "showCompleted": "显示已完成",
     "filterStatus": "状态",
     "filterPriority": "优先级",

@@ -25,6 +25,7 @@
     "descriptionPlaceholder": "Enter description (optional)...",
     "priorityLabel": "Priority",
     "dueDateLabel": "Due Date",
+    "dueTimeLabel": "Time",
     "tagsLabel": "Tags",
     "tagsPlaceholder": "Press Enter to add tag...",
     "addTag": "Add",
@@ -53,9 +54,8 @@
   },
   "taskList": {
     "filters": "Filters",
-    "sortDate": "Date",
+    "sortDueTime": "Due Time",
     "sortPriority": "Priority",
-    "sortDueDate": "Due Date",
     "showCompleted": "Show Completed",
     "filterStatus": "Status",
     "filterPriority": "Priority",

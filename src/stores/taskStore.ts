@@ -38,7 +38,10 @@ export const useTaskStore = create<TaskState>((set, get) => ({
   isLoading: false,
   selectedTaskId: null,
 
-  setTasks: (tasks) => set({ tasks }),
+  setTasks: (tasks) => {
+    set({ tasks })
+    get().saveTasks()
+  },
 
   addTask: (taskData) => {
     const state = get()
