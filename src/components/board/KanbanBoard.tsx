@@ -10,12 +10,31 @@ import {
   useSensors,
   closestCorners
 } from '@dnd-kit/core'
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { SortableContext, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 import { useTranslation } from 'react-i18next'
 import { useTaskStore } from '../../stores/taskStore'
 import KanbanColumn from './KanbanColumn'
 import TaskCard from '../tasks/TaskCard'
 import { Task } from '../../../shared/types'
+
+function SortableTaskCard({ task }: { task: Task }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: task.id
+  })
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={{ transform: CSS.Transform.toString(transform), transition }}
+      {...attributes}
+      {...listeners}
+      className={isDragging ? 'opacity-50' : ''}
+    >
+      <TaskCard task={task} />
+    </div>
+  )
+}
 
 const columns: { id: Task['status']; titleKey: string }[] = [
   { id: 'todo', titleKey: 'status.todo' },
@@ -133,7 +152,7 @@ export default function KanbanBoard() {
               >
                 <div className="space-y-3">
                   {columnTasks.map((task) => (
-                    <TaskCard key={task.id} task={task} />
+                    <SortableTaskCard key={task.id} task={task} />
                   ))}
 
                   {columnTasks.length === 0 && (

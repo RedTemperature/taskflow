@@ -35,8 +35,8 @@ export default function SettingsPage() {
   const [aiSaved, setAiSaved] = useState(false)
 
   const presets: { label: string; model: string; url: string }[] = [
-    { label: t('settings.ai.presetDeepSeek'), model: 'deepseek-v4-pro', url: 'https://api.deepseek.com' },
-    { label: t('settings.ai.presetOpenRouter'), model: 'anthropic/claude-3-5-haiku', url: 'https://openrouter.ai/api/v1' },
+    { label: t('settings.ai.presetDeepSeek'), model: 'deepseek-v4-flash', url: 'https://api.deepseek.com' },
+    { label: t('settings.ai.presetChatGPT'), model: 'gpt-4o-mini', url: 'https://api.openai.com' },
     { label: t('settings.ai.presetCustom'), model: '', url: '' }
   ]
 

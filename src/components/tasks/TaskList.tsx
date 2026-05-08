@@ -30,6 +30,10 @@ export default function TaskList() {
   const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3 }
 
   const sortedTasks = [...filteredTasks].sort((a, b) => {
+    // Completed tasks always go after uncompleted
+    if (a.status === 'done' && b.status !== 'done') return 1
+    if (a.status !== 'done' && b.status === 'done') return -1
+
     let comparison = 0
 
     switch (sortField) {

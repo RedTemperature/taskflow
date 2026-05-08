@@ -90,7 +90,7 @@ Rules:
 7. Return {"tasks": []} if no tasks found.`
 
       const response = await client.chat.completions.create({
-        model: settings.aiModel || 'deepseek-v4-pro',
+        model: settings.aiModel || 'deepseek-v4-flash',
         max_tokens: 4096,
         response_format: { type: 'json_object' },
         messages: [

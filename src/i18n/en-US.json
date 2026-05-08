@@ -104,7 +104,7 @@
       "title": "AI Configuration",
       "presetLabel": "Preset Providers",
       "presetDeepSeek": "DeepSeek",
-      "presetOpenRouter": "OpenRouter",
+      "presetChatGPT": "ChatGPT",
       "presetCustom": "Custom",
       "modelLabel": "Model Name",
       "modelPlaceholder": "e.g. claude-3-5-haiku-latest",

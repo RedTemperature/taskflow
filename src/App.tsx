@@ -16,7 +16,7 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('tasks')
   const [viewMode, setViewMode] = useState<ViewMode>('list')
   const { loadTasks } = useTaskStore()
-  const { loadSettings, settings } = useSettingsStore()
+  const { loadSettings, settings, setSettings } = useSettingsStore()
 
   useTheme()
   useShortcuts()
@@ -48,7 +48,7 @@ export default function App() {
       currentPage={currentPage}
       viewMode={viewMode}
       onNavigate={setCurrentPage}
-      onViewModeChange={setViewMode}
+      onViewModeChange={(mode) => { setViewMode(mode); setSettings({ defaultView: mode }) }}
     >
       {renderPage()}
     </Layout>
