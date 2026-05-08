@@ -36,7 +36,7 @@ export default function SettingsPage() {
 
   const presets: { label: string; model: string; url: string }[] = [
     { label: t('settings.ai.presetClaude'), model: 'claude-3-5-haiku-latest', url: 'https://api.anthropic.com' },
-    { label: t('settings.ai.presetDeepSeek'), model: 'deepseek-v4-pro', url: 'https://api.deepseek.com' },
+    { label: t('settings.ai.presetDeepSeek'), model: 'deepseek-chat', url: 'https://api.deepseek.com/anthropic' },
     { label: t('settings.ai.presetCustom'), model: '', url: '' }
   ]
 

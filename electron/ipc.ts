@@ -93,7 +93,7 @@ Rules:
         model: settings.aiModel || 'claude-3-5-haiku-latest',
         max_tokens: 4096,
         system: systemPrompt,
-        messages: [{ role: 'user', content: text }]
+        messages: [{ role: 'user', content: [{ type: 'text' as const, text }] }]
       })
 
       const content = msg.content[0]
