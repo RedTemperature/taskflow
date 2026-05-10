@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Sparkles, Upload, X, Loader2, AlertCircle, FileText } from 'lucide-react'
+import { Sparkles, Upload, X, Loader2, AlertCircle } from 'lucide-react'
 import { useTaskStore } from '../../stores/taskStore'
 import { AISuggestedTask, AIGenerateResult } from '../../../shared/types'
 import AiTaskPreviewItem from './AiTaskPreviewItem'
@@ -169,7 +169,7 @@ export default function AiTaskGenerator({ onClose }: Props) {
                 {t('aiGenerator.tasksFound', { count: suggestedTasks.length })}
               </p>
               <div className="space-y-3 max-h-96 overflow-y-auto">
-                {suggestedTasks.map((task, i) => (
+                {suggestedTasks.map((task) => (
                   <AiTaskPreviewItem
                     key={task.tempId}
                     task={task}

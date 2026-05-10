@@ -1,10 +1,10 @@
-import { ipcMain, BrowserWindow, dialog } from 'electron'
+import { ipcMain, dialog } from 'electron'
 import { getTasks, saveTasks, getSettings, saveSettings } from './store'
 import { readFileSync, writeFileSync } from 'fs'
 import OpenAI from 'openai'
 import { AISuggestedTask } from '../shared/types'
 
-export function setupIpcHandlers(_mainWindow: BrowserWindow): void {
+export function setupIpcHandlers(): void {
   // Tasks
   ipcMain.handle('tasks:getAll', () => {
     return getTasks()

@@ -107,12 +107,12 @@
       "presetChatGPT": "ChatGPT",
       "presetCustom": "Custom",
       "modelLabel": "Model Name",
-      "modelPlaceholder": "e.g. claude-3-5-haiku-latest",
+      "modelPlaceholder": "e.g. gpt-4o-mini or deepseek-v4-flash",
       "baseUrlLabel": "API URL",
-      "baseUrlPlaceholder": "https://api.anthropic.com",
+      "baseUrlPlaceholder": "https://api.openai.com",
       "apiKeyLabel": "API Key",
-      "apiKeyPlaceholder": "sk-ant-...",
-      "apiKeyHint": "Your key is stored locally and only used to call the AI API. Works with any Anthropic Messages API-compatible provider.",
+      "apiKeyPlaceholder": "sk-...",
+      "apiKeyHint": "Your key is stored locally and only used to call your configured AI provider. Works with OpenAI-compatible chat completion APIs.",
       "saveKey": "Save Configuration",
       "saved": "Configuration saved"
     }

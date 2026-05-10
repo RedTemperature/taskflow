@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { X, Tag, Flag, Calendar } from 'lucide-react'
+import { X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { AISuggestedTask } from '../../../shared/types'
 

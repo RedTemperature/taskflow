@@ -6,7 +6,6 @@ import {
   Globe,
   LayoutGrid,
   List,
-  Download,
   Upload,
   FileJson,
   FileSpreadsheet,

@@ -40,8 +40,8 @@ function createWindow(): BrowserWindow {
 }
 
 app.whenReady().then(() => {
-  const mainWindow = createWindow()
-  setupIpcHandlers(mainWindow)
+  createWindow()
+  setupIpcHandlers()
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) {
